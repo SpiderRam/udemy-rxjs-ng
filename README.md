@@ -1,142 +1,40 @@
+# udemy-rxjs-ng
 
-## The RxJs In Practice Course
-
-This repository contains the code of the [RxJs In Practice Course](https://angular-university.io/course/rxjs-course).
-
-This course repository is updated to Angular v11:
+[Starter code](https://github.com/angular-university/rxjs-course) from the [Udemy course](https://www.udemy.com/course/rxjs-course/), by Angular Academy
 
 ![RxJs In Practice Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/rxjs-in-practice-course.png)
 
+## Getting started
 
-# Installation pre-requisites
+As noted in the source repo, this project is intended to be run with the following:
 
-Please use Node 14 (Long Term Support version).
+-   Node version 14.15.3
+-   Angular CLI 11.0.5
 
-# Installing the Angular CLI
+First the requisite:
 
-With the following command the angular-cli will be installed globally in your machine:
+```bash
+npm i
+```
 
-    npm install -g @angular/cli 
+Then spin up the back end server:
 
+```bash
+npm run server
+```
 
-# How To install this repository
+And then the UI:
 
-We can install the master branch using the following commands:
+```bash
+npm start
+```
 
-    git clone https://github.com/angular-university/rxjs-course.git
-    
-This repository is made of several separate npm modules, that are installable separately. For example, to run the au-input module, we can do the following:
-    
-    cd rxjs-course
-    npm install
+## Takeaways
 
-Its also possible to install the modules as usual using npm:
+> Streams
 
-    npm install 
+A stream can be any event or flow of data or events. Mouse/key events, data being returned from a server, and any other events which may occur in the browser (often simulated in examples with intervals/timeouts), all can be considered streams.
 
-NPM 5 or above has the big advantage that if you use it you will be installing the exact same dependencies than I installed in my machine, so you wont run into issues caused by semantic versioning updates.
+> Observables
 
-This should take a couple of minutes. If there are issues, please post the complete error message in the Questions section of the course.
-
-# To Run the Development Backend Server
-
-In order to be able to provide realistic examples, we will need in our playground a small REST API backend server. We can start the sample application backend with the following command:
-
-    npm run server
-
-This is a small Node REST API server.
-
-# To run the Development UI Server
-
-To run the frontend part of our code, we will use the Angular CLI:
-
-    npm start 
-
-The application is visible at port 4200: [http://localhost:4200](http://localhost:4200)
-
-
-
-# Important 
-
-This repository has multiple branches, have a look at the beginning of each section to see the name of the branch.
-
-At certain points along the course, you will be asked to checkout other remote branches other than master. You can view all branches that you have available remotely using the following command:
-
-    git branch -a
-
-  The remote branches have their starting in origin, such as for example 1-navigation-and-containers.
-
-We can checkout the remote branch and start tracking it with a local branch that has the same name, by using the following command:
-
-      git checkout -b section-1 origin/1-navigation-and-containers
-
-It's also possible to download a ZIP file for a given branch,  using the branch dropdown on this page on the top left, and then selecting the Clone or Download / Download as ZIP button.
-
-# Other Courses
-
-# Angular PWA Course
-
-If you are looking for the [Angular PWA Course](https://angular-university.io/course/angular-pwa-course), the repo with the full code can be found here:
-
-![Angular PWA Course - Build the future of the Web Today](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-pwa-course.png)
-
-# Angular Security Masterclass
-
-If you are looking for the [Angular Security Masterclass](https://angular-university.io/course/angular-security-course), the repo with the full code can be found here:
-
-[Angular Security Masterclass](https://github.com/angular-university/angular-security-course).
-
-![Angular Security Masterclass](https://s3-us-west-1.amazonaws.com/angular-university/course-images/security-cover-small-v2.png)
-
-# Angular Advanced Library Laboratory Course
-
-If you are looking for the Angular Advanced Course, the repo with the full code can be found here:
-
-[Angular Advanced Library Laboratory Course: Build Your Own Library](https://angular-university.io/course/angular-advanced-course).
-
-![Angular Advanced Library Laboratory Course: Build Your Own Library](https://angular-academy.s3.amazonaws.com/thumbnails/advanced_angular-small-v3.png)
-
-
-## RxJs and Reactive Patterns Angular Architecture Course
-
-If you are looking for the RxJs and Reactive Patterns Angular Architecture Course code, the repo with the full code can be found here:
-
-[RxJs and Reactive Patterns Angular Architecture Course](https://angular-university.io/course/reactive-angular-architecture-course)
-
-![RxJs and Reactive Patterns Angular Architecture Course](https://s3-us-west-1.amazonaws.com/angular-academy/blog/images/rxjs-reactive-patterns-small.png)
-
-
-
-## Angular Ngrx Reactive Extensions Architecture Course
-
-If you are looking for the Angular Ngrx Reactive Extensions Architecture Course code, the repo with the full code can be found here:
-
-[Angular Ngrx Reactive Extensions Architecture Course](https://angular-university.io/course/angular2-ngrx)
-
-[Github repo for this course](https://github.com/angular-university/ngrx-course)
-
-![Angular Ngrx Course](https://angular-academy.s3.amazonaws.com/thumbnails/ngrx-angular.png)
-
-
-
-## Angular 2 and Firebase - Build a Web Application Course
-
-If you are looking for the Angular 2 and Firebase - Build a Web Application Course code, the repo with the full code can be found here:
-
-[Angular 2 and Firebase - Build a Web Application](https://angular-university.io/course/build-an-application-with-angular2)
-
-[Github repo for this course](https://github.com/angular-university/angular-firebase-app)
-
-![Angular firebase course](https://angular-academy.s3.amazonaws.com/thumbnails/angular_app-firebase-small.jpg)
-
-
-## Complete Typescript 2 Course - Build A REST API
-
-If you are looking for the Complete Typescript 2 Course - Build a REST API, the repo with the full code can be found here:
-
-[https://angular-university.io/course/typescript-2-tutorial](https://github.com/angular-university/complete-typescript-course)
-
-[Github repo for this course](https://github.com/angular-university/complete-typescript-course)
-
-![Complete Typescript Course](https://angular-academy.s3.amazonaws.com/thumbnails/typescript-2-small.png)
-
+An Observable is a blueprint for a stream; it only becomes a stream if we subscribe to it. [This nice blog post](https://blog.angular-university.io/functional-reactive-programming-for-angular-2-developers-rxjs-and-observables/) describes it thus: "Think of it as your API for tapping into a stream. You can use it to define a stream, subscribe to it and transform it."
