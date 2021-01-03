@@ -69,3 +69,11 @@ int.pipe(
 
 int.pipe(take(5)).subscribe((val) => console.log(val)); // 0, 1, 2, 3, 4
 ```
+
+> Mapping
+
+#### concatMap
+
+-   subscribes to one or more observables and emits their values in sequential order
+-   will only move to succeeding observables after each one completes.
+-   ideally suited to, for example, save operations
