@@ -38,3 +38,34 @@ A stream can be any event or flow of data or events. Mouse/key events, data bein
 > Observables
 
 An Observable is a blueprint for a stream; it only becomes a stream if we subscribe to it. [This nice blog post](https://blog.angular-university.io/functional-reactive-programming-for-angular-2-developers-rxjs-and-observables/) describes it thus: "Think of it as your API for tapping into a stream. You can use it to define a stream, subscribe to it and transform it."
+
+> Pipe
+
+Pipe is a built in rxjs function.
+
+-   It is used to derive new Observables from existing Observables.
+-   It allows us to chain multiple operators to produce a new Observable.
+-   It will not mutate the original Observable:
+
+```typescript
+const add1 = (num: number) => {
+    return num + 1;
+};
+const x3 = (num: number) => {
+    return num * 3;
+};
+const minus2 = (num: number) => {
+    return num - 2;
+};
+
+const int = interval(1000);
+
+int.pipe(
+    take(5),
+    map((x) => add1(x)),
+    map((y) => x3(y)),
+    map((z) => minus2(z))
+).subscribe((val) => console.log(val)); // 1, 4, 7, 10, 13
+
+int.pipe(take(5)).subscribe((val) => console.log(val)); // 0, 1, 2, 3, 4
+```

@@ -24,7 +24,7 @@ export class Store {
 
         http$
             .pipe(
-                tap(() => console.log('HTTP request executed')),
+                tap(() => console.log('HTTP request executed (store.service.ts)')),
                 map(res => Object.values(res['payload']))
             )
             .subscribe(

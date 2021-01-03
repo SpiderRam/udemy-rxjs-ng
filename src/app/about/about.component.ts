@@ -26,24 +26,16 @@ import {createHttpObservable} from '../common/util';
 export class AboutComponent implements OnInit {
 
     ngOnInit() {
-      // ~~~ NOTES ~~~
-      // A promise executes as soon as it is called, an Observable only triggers in response to a subscription
-      // `new Observable()` allows you to create a custom Observable; it takes a function which implements the behavior of the Observable
+      // ~~~ NOTES (Section 10)~~~
+      //
       // ______________________________________________________________________
 
-      const http$ = new Observable(observer => { // it is observer which allows us to emit/error/complete
-        fetch('/api/courses')
-          .then(response => {
-            return response.json();
-          })
-          .then(body => {
-            observer.next(body);
-            observer.complete();
-          })
-          .catch(err => {
-            observer.error(err);
-          });
-      });
+      const http$ = createHttpObservable('/api/courses');
+      const courses$ = http$.pipe(
+        // the result of http$ is {"payload": [...]}
+        // here we are using map() to extract the values into their own array
+        map(res => Object.values(res['payload']))
+      );
 
       http$.subscribe(
         courses => console.log(courses),
@@ -51,7 +43,38 @@ export class AboutComponent implements OnInit {
         () => console.log('Complete!')
       );
 
-      // ~~~ NOTES ~~~
+      courses$.subscribe(
+        courses => console.log(courses),
+        error => console.log('Error', error),
+        () => console.log('Complete!')
+      );
+
+      // ~~~ NOTES (Section 9)~~~
+      // A promise executes as soon as it is called, an Observable only triggers in response to a subscription
+      // `new Observable()` allows you to create a custom Observable; it takes a function which implements the behavior of the Observable
+      // ______________________________________________________________________
+
+      // const http$ = new Observable(observer => { // it is observer which allows us to emit/error/complete
+      //   fetch('/api/courses')
+      //     .then(response => {
+      //       return response.json();
+      //     })
+      //     .then(body => {
+      //       observer.next(body);
+      //       observer.complete();
+      //     })
+      //     .catch(err => {
+      //       observer.error(err);
+      //     });
+      // });
+
+      // http$.subscribe(
+      //   courses => console.log(courses),
+      //   error => console.log('Error', error),
+      //   () => console.log('Complete!')
+      // );
+
+      // ~~~ NOTES (Sections 7-8)~~~
       // An Observable is a blueprint for a stream; it only becomes a stream if we subscribe to it
       // const interval$ = interval(1000) is the definition of a stream,
       // interval$.subscribe(...) is an instance of a stream
@@ -87,8 +110,8 @@ export class AboutComponent implements OnInit {
       //   sub.unsubscribe();
       // }, 5000);
     }
-}
 
+  }
 
 
 
