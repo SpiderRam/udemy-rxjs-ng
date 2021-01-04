@@ -69,3 +69,55 @@ int.pipe(
 
 int.pipe(take(5)).subscribe((val) => console.log(val)); // 0, 1, 2, 3, 4
 ```
+
+> Combining Observables
+
+#### concatMap
+
+-   subscribes to one or more observables and emits their values in sequential order
+-   will only move to succeeding observables after each one completes.
+-   ideally suited to, for example, save operations
+
+#### merge
+
+-   merge takes observables as arguments (input observables)
+-   it then forwards the values from the input observables to an output observable, without transforming them in any way
+-   the values are emitted in the order in which they are received by merge
+-   merge is ideal for performing HTTP requests in parallel
+
+```typescript
+const interval1$ = interval(1000);
+const interval2$ = interval1$.pipe(map((val) => 10 * val));
+const result$ = merge(interval1$, interval2$);
+result$.pipe(take(5)).subscribe(console.log); // 0, 0, 1, 10, 2
+```
+
+#### mergeMap
+
+-   similar to merge, but mergeMap takes as an argument a function for transforming the values of the input observables before forwarding to the output observable
+
+#### exhaustMap
+
+-   like concatMap and mergeMap, takes the values of input observables and forwards them to an output observable
+-   however, exhaustMap will ignore new values if a previous observable has not yet completed
+-   this is ideal for preventing duplicated results from a user clicking a button more than once while a process is running
+
+#### switchMap
+
+-   switchMap will immediately complete the previous input observable and subscribe to the new one when a new value is emitted.
+-   this is seen in the type ahead example
+-   can create bugs, be careful to only use it when you really do not care if an observable fully completes each value
+
+> Additional Operators
+
+#### debounceTime
+
+-   `debounceTime(400)`
+-   emits a value from the input observable only after the specified time has elapsed
+-   will only emit the most recent value, not all values as with `delay()`
+-   for example, the type ahead search component: instead of emitting every letter as it is typed, the value is emitted every 400ms, as words or word fragments, thus reducing the calls to back end
+
+#### distinctUntilChanged
+
+-   only emits the current value if it is different from the previous value
+-   in the type ahead example, this solves for use of the Shift key, or typing letters and immediately deleting them (in combination with debounceTime)

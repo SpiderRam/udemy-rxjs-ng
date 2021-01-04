@@ -15,8 +15,7 @@ import {
 } from 'rxjs/operators';
 import {merge, fromEvent, Observable, concat} from 'rxjs';
 import {Lesson} from '../model/lesson';
-import {createHttpObservable} from '../common/util';
-import {Store} from '../common/store.service';
+import { createHttpObservable } from '../common/util';
 
 
 @Component({
@@ -26,62 +25,48 @@ import {Store} from '../common/store.service';
 })
 export class CourseComponent implements OnInit, AfterViewInit {
 
-    courseId:number;
 
-    course$ : Observable<Course>;
-
+    courseId: string;
+    course$: Observable<Course>;
     lessons$: Observable<Lesson[]>;
 
 
     @ViewChild('searchInput', { static: true }) input: ElementRef;
 
-    constructor(private route: ActivatedRoute, private store: Store) {
+    constructor(private route: ActivatedRoute) {
 
 
     }
 
     ngOnInit() {
-
-        this.courseId = this.route.snapshot.params['id'];
-
-        this.course$ = this.store.selectCourseById(this.courseId);
-
+      this.courseId = this.route.snapshot.params['id'];
+      this.course$ = createHttpObservable(`/api/courses/${this.courseId}`);
     }
 
     ngAfterViewInit() {
-
-        const searchLessons$ =  fromEvent<any>(this.input.nativeElement, 'keyup')
-            .pipe(
-                map(event => event.target.value),
-                debounceTime(400),
-                distinctUntilChanged(),
-                switchMap(search => this.loadLessons(search))
-            );
+      // GOAL: create a type ahead search function, that does NOT call to the server on every keystroke
+      // Operators to use: debounceTime, distinctUntilChanged, switchMap
+      const searchLessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
+        .pipe(
+          map(event => event.target.value),
+          debounceTime(400),
+          distinctUntilChanged(),
+          // ^^^ this all works, but adding switchMap gives us the ability to cancel in-flight
+          // API requests in favor of newer values as the user types
+          switchMap(search => this.loadLessons(search))
+        )
+        .subscribe(console.log);
 
         const initialLessons$ = this.loadLessons();
-
-        this.lessons$ = concat(initialLessons$, searchLessons$);
-
+        this.lessons$ = concat(initialLessons$, searchLessons$); // TODO: resolve rxjs vs. angular battle
     }
 
     loadLessons(search = ''): Observable<Lesson[]> {
-        return createHttpObservable(
-            `/api/lessons?courseId=${this.courseId}&pageSize=100&filter=${search}`)
-            .pipe(
-                map(res => res["payload"])
-            );
+      return this.lessons$ = createHttpObservable(`/api/lessons?courseId=${this.courseId}&pageSize=100&filter=${search}`)
+        .pipe(
+          map(res => res['payload'])
+        );
     }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
